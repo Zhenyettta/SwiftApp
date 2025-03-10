@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E785BB872D7DE6A700F46431 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = E785BB862D7DE6A700F46431 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E785BB3B2D7DBD1100F46431 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -48,16 +52,6 @@
 			path = SwiftApp;
 			sourceTree = "<group>";
 		};
-		E785BB3D2D7DBD1100F46431 /* SwiftAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SwiftAppTests;
-			sourceTree = "<group>";
-		};
-		E785BB472D7DBD1100F46431 /* SwiftAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = SwiftAppUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E785BB872D7DE6A700F46431 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,8 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				E785BB262D7DBD1000F46431 /* SwiftApp */,
-				E785BB3D2D7DBD1100F46431 /* SwiftAppTests */,
-				E785BB472D7DBD1100F46431 /* SwiftAppUITests */,
+				E785BB852D7DE6A700F46431 /* Frameworks */,
 				E785BB252D7DBD1000F46431 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,6 +97,13 @@
 				E785BB442D7DBD1100F46431 /* SwiftAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E785BB852D7DE6A700F46431 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +126,7 @@
 			);
 			name = SwiftApp;
 			packageProductDependencies = (
+				E785BB862D7DE6A700F46431 /* Kingfisher */,
 			);
 			productName = SwiftApp;
 			productReference = E785BB242D7DBD1000F46431 /* SwiftApp.app */;
@@ -142,9 +144,6 @@
 			);
 			dependencies = (
 				E785BB3C2D7DBD1100F46431 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E785BB3D2D7DBD1100F46431 /* SwiftAppTests */,
 			);
 			name = SwiftAppTests;
 			packageProductDependencies = (
@@ -165,9 +164,6 @@
 			);
 			dependencies = (
 				E785BB462D7DBD1100F46431 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				E785BB472D7DBD1100F46431 /* SwiftAppUITests */,
 			);
 			name = SwiftAppUITests;
 			packageProductDependencies = (
@@ -208,6 +204,9 @@
 			);
 			mainGroup = E785BB1B2D7DBD1000F46431;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E785BB722D7DE61B00F46431 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E785BB252D7DBD1000F46431 /* Products */;
 			projectDirPath = "";
@@ -295,8 +294,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,9 +303,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Anisimov.SwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -323,8 +324,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,9 +333,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Anisimov.SwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -571,6 +574,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E785BB722D7DE61B00F46431 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E785BB862D7DE6A700F46431 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E785BB722D7DE61B00F46431 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E785BB1C2D7DBD1000F46431 /* Project object */;
 }
