@@ -25,6 +25,11 @@ struct RedditPost: Codable {
     let is_gallery: Bool?
     let media_metadata: [String: RedditMedia]?
     let gallery_data: RedditGallery?
+    
+    
+    var saved: Bool {
+           return Bool.random()
+       }
 
     var timePassed: String {
         let interval = Date().timeIntervalSince(Date(timeIntervalSince1970: created_utc))

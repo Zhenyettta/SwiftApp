@@ -3,12 +3,13 @@ import Kingfisher
 
 class PostViewController: UIViewController {
     
-    @IBOutlet weak var postInfoLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var redditImage: UIImageView!
-    @IBOutlet weak var commentNumLabel: UILabel!
-    @IBOutlet weak var upsLabel: UILabel!
-    @IBOutlet weak var verticalStack: UIStackView!
+    @IBOutlet private weak var postInfoLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var redditImage: UIImageView!
+    @IBOutlet private weak var commentNumLabel: UILabel!
+    @IBOutlet private weak var upsLabel: UILabel!
+    @IBOutlet private weak var verticalStack: UIStackView!
+    @IBOutlet private weak var bookmarkButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +29,13 @@ class PostViewController: UIViewController {
         upsLabel.text = (post.ups - post.downs).description
         commentNumLabel.text = post.num_comments.description
         
-        verticalStack.setCustomSpacing(16, after: postInfoLabel)
+        let iconName = post.saved ? "bookmark.fill" : "bookmark"
+                bookmarkButton.setImage(UIImage(systemName: iconName), for: .normal)
+    
         
         if let imageUrlString = post.fixedImageURL ?? post.galleryFirstImageURL, let url = URL(string: imageUrlString) {
             redditImage.kf.setImage(with: url)
             redditImage.isHidden = false
-            verticalStack.setCustomSpacing(16, after: titleLabel)
         } else {
             redditImage.isHidden = true
         }
