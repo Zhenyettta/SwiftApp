@@ -14,6 +14,7 @@ struct RedditChild: Codable {
 }
 
 struct RedditPost: Codable {
+    let id: String
     let author: String
     let subreddit_name_prefixed: String
     let created_utc: Double
@@ -25,11 +26,9 @@ struct RedditPost: Codable {
     let is_gallery: Bool?
     let media_metadata: [String: RedditMedia]?
     let gallery_data: RedditGallery?
-    
-    
-    var saved: Bool {
-           return Bool.random()
-       }
+    let url: String
+    var saved: Bool
+    let permalink: String
 
     var timePassed: String {
         let interval = Date().timeIntervalSince(Date(timeIntervalSince1970: created_utc))
@@ -70,7 +69,13 @@ struct RedditMediaSource: Codable {
 }
 
 final class APIService {
-    static func fetchPosts(subreddit: String, limit: Int, after: String? = nil, completion: @escaping (Result<[RedditPost], Error>) -> Void) {
+    private static let savedPostsManager = SavedPostsManager()
+    static func fetchPosts(
+            subreddit: String,
+            limit: Int,
+            after: String? = nil,
+            completion: @escaping (Result<(posts: [RedditPost], after: String?), Error>) -> Void
+        ) {
         var components = URLComponents(string: "https://www.reddit.com/r/\(subreddit)/top.json")!
         var queryItems = [URLQueryItem(name: "limit", value: "\(limit)")]
         if let after = after {
@@ -80,17 +85,78 @@ final class APIService {
         guard let url = components.url else { return }
         
         URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+                    guard let data = data else { return }
+                    do {
+                        let redditResponse = try JSONDecoder().decode(RedditResponse.self, from: data)
+                        var posts = redditResponse.data.children.map { $0.data }
+                        for index in 0..<posts.count {
+                                                var post = posts[index]
+                            post.saved = self.savedPostsManager.isPostSaved(id: post.id)
+                            posts[index] = post
+                                            }
+                        let after = redditResponse.data.after
+                        completion(.success((posts, after)))
+                    } catch {
+                        completion(.failure(error))
+                    }
+                }.resume()
             }
-            guard let data = data else { return }
+        }
+
+
+
+class SavedPostsManager {
+    
+    private let fileURL: URL
+    
+    init() {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        fileURL = documentsDirectory.appendingPathComponent("savedPosts.json")
+    }
+    
+    func loadSavedPosts() -> [RedditPost]? {
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: fileURL.path) {
             do {
-                let redditResponse = try JSONDecoder().decode(RedditResponse.self, from: data)
-                completion(.success(redditResponse.data.children.map { $0.data }))
+                let data = try Data(contentsOf: fileURL)
+                let decoder = JSONDecoder()
+                return try decoder.decode([RedditPost].self, from: data)
             } catch {
-                completion(.failure(error))
+                print("Error loading saved posts: \(error)")
             }
-        }.resume()
+        }
+        return nil
+    }
+    
+    func saveSavedPosts(_ posts: [RedditPost]) {
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(posts)
+            try data.write(to: fileURL)
+        } catch {
+            print("Error saving saved posts: \(error)")
+        }
+    }
+    
+    func toggleSavedPost(post: RedditPost) {
+        var savedPosts = loadSavedPosts() ?? []
+        
+        if let index = savedPosts.firstIndex(where: { $0.id == post.id }) {
+            savedPosts.remove(at: index)
+        } else {
+            savedPosts.append(post)
+        }
+        
+        saveSavedPosts(savedPosts)
+    }
+    
+    func isPostSaved(id: String) -> Bool {
+        guard let savedPosts = loadSavedPosts() else { return false }
+        return savedPosts.contains(where: { $0.id == id })
     }
 }
