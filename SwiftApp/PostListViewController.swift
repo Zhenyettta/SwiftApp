@@ -9,9 +9,9 @@ class PostListViewController: UIViewController, PostDetailsViewControllerDelegat
     private var savedPosts: [RedditPost] = []
     private var filteredSavedPosts: [RedditPost] = []
     private var posts: [RedditPost] {
-        return showingSavedPosts ? filteredSavedPosts.isEmpty ? savedPosts : filteredSavedPosts : apiPosts
+        return showingSavedPosts ? filteredSavedPosts : apiPosts
     }
-    
+
     private var after: String?
     private var isLoading = false
     private let pageLimit = 10
@@ -31,6 +31,11 @@ class PostListViewController: UIViewController, PostDetailsViewControllerDelegat
         subredditLabel.text = "/r/ios"
         
         searchBar.delegate = self
+        searchBar.showsCancelButton = true
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     private func setupTableView() {
@@ -64,14 +69,19 @@ class PostListViewController: UIViewController, PostDetailsViewControllerDelegat
     @IBAction func bookmarkButtonTapped(_ sender: UIButton) {
         if showingSavedPosts {
             showingSavedPosts = false
+            searchBar.resignFirstResponder()
+            searchBar.text = ""
+            searchBar.isHidden = true
             tableView.reloadData()
             bookmarkButton.setImage(UIImage(systemName: "bookmark"), for: .normal)
         } else {
             searchBar.isHidden = false
+            searchBar.text = ""
             loadSavedPosts()
             bookmarkButton.setImage(UIImage(systemName: "bookmark.fill"), for: .normal)
         }
     }
+
     
     func loadSavedPosts() {
         if let savedPosts = SavedPostsManager().loadSavedPosts() {
@@ -80,6 +90,10 @@ class PostListViewController: UIViewController, PostDetailsViewControllerDelegat
             showingSavedPosts = true
             tableView.reloadData()
         }
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     func didUpdatePost(_ post: RedditPost) {
@@ -108,6 +122,7 @@ class PostListViewController: UIViewController, PostDetailsViewControllerDelegat
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
+        searchBar.resignFirstResponder()
         filteredSavedPosts = savedPosts
         tableView.reloadData()
     }

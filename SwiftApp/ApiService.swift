@@ -28,7 +28,7 @@ struct RedditPost: Codable {
     let gallery_data: RedditGallery?
     let url: String
     var saved: Bool
-    let permalink: String
+    let permalink: String?
 
     var timePassed: String {
         let interval = Date().timeIntervalSince(Date(timeIntervalSince1970: created_utc))

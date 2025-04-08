@@ -25,7 +25,7 @@ class PostDetailsViewController: UIViewController {
         
     override func viewDidLoad() {
             super.viewDidLoad()
-        var config = UIButton.Configuration.plain()
+        _ = UIButton.Configuration.plain()
         shareButton.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
 
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
@@ -36,7 +36,7 @@ class PostDetailsViewController: UIViewController {
         }
     
     @IBAction func sharePressed(_ sender: UIButton) {
-        let postURL = "https://www.reddit.com" + post.permalink
+        let postURL = "https://www.reddit.com" + (post.permalink ?? "")
         print(postURL)
             
             guard let url = URL(string: postURL) else {
@@ -75,9 +75,7 @@ class PostDetailsViewController: UIViewController {
         if let urlString = post.fixedImageURL ?? post.galleryFirstImageURL,
            let url = URL(string: urlString) {
             redditImage.kf.setImage(with: url)
-            redditImage.isHidden = false
         } else {
-            redditImage.isHidden = true
         }
         
         UIView.animate(withDuration: 0.3) {
